@@ -1,0 +1,57 @@
+= Support join
+This project is aiming to make a web page where enginees (developpers) can either create project or even upvote some that are already present to the platform. 
+
+:toc:
+:sectnums:
+
+== Introduction
+Using the vote of some developpers, you'll then be able to see all the open-source projects where peoples are working on. And you'll be able to help those you like, or even discuss with them !
+
+People can then either upvote some projects ideas / content or even join the projects directly. Also user can ask questions or event put some comments regarding the project presentation.
+
+== Project overview
+This project is done in order to work on Java application using some spring frameworks. But also keep improving my skills as a passionate developper ! That's also why I am doing the project as this project isn't my idea, but a friend who told me to work on something like this. And I'm very grateful for what she did !
+
+Now less feeling talk, let's talk about the project and how he's going to be develop.
+
+== Project overview
+This project will be a web project, that means he'll contains the following layers:
+
+. Front-end
+. Middleware
+. Back-end
+
+=== Front-end
+The front-end part (that is the presentation layer) will be done using one of my favorite framework named Angular.
+
+The use of Angular has been chosen because of the way that Angular is made up and all the features this language provides. Which are:
+
+* Keep the codebase clean and organised with an opinionated component model and flexible dependency injection system
+* Angular component that will help you splitting your code into well-encapsulated parts
+* The versatile dependency-injection helps you to keep your code modular, loosely coupled and testable using NgMock.
+* Our fine-grained reactivity model, combined with compile-time optimisations, simplifies development and helps build faster apps by default.
+
+=== Middleware
+As said above, the middleware will be implemented using Angular as well as the front-end of the application.
+
+Middleware is a concept that is coming from Laravel, what it does is basically run between each request made by a router at a specific route. So the middleware will then be able to either authorized the user, or redirect it somewhere he has the rights to be.
+
+=== Back-end in Java
+As this project has been done in order to test out the Java and its framework named Spring-boot, that's what is going to be used for the back-end part.
+
+==== Spring
+Spring makes programming jave quicker, easier, and safer for everybody. Spring's focus on speed, simplicity and productivity has made it the world's most popular java framework.
+
+==== Spring-boot
+Spring-boot makes it easy to create a stand-alone, production based spring based application that you can "just run".
+
+Moreover, Spring-boot contains some good features that spring doesn't that are to name a few:
+
+* Create stand-alone spring applications
+* Embed tomcat, jetty or underflow directly (no need to deploy a war file)
+* Provide opinionated starter dependencies to simplify your build configuration
+
+=== Database
+MariaDB has been used around the world for almost 20 years from now on. MariaDB Server is a leading open source relational database, developed by the original creators of MySQL. Renowned for its speed, scalability, and robustness, it serves a wide range of applications, from banking to websites, and powers notable platforms like Wikipedia and WordPress.com. Originally designed as a drop-in replacement for MySQL, MariaDB Server offers an enhanced feature set, including a rich ecosystem of storage engines and plugins.
+
+MariaDB is a database that is considered as a relational database ported by SQL. That means that each table can have a relationship with each other, that’s why some architectural choice will then be made.
