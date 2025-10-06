@@ -1,4 +1,4 @@
-package net.franco.supportJoin.model;
+package net.franco.supportJoin.utils;
 
 import java.io.Serializable;
 
@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserProjectId implements Serializable {
-
+	private static final long serialVersionUID = 1L;
+	
 	private Long userId;
 	private Long projectId;
 }

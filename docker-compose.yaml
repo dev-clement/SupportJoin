@@ -1,10 +1,32 @@
 services:
   mariadb:
-    image: mariadb:latest
+    image: mariadb:11.4
+    container_name: mariadb
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: supportjoin
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_USER: appuser
+      MARIADB_PASSWORD: apppass
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./initdb:/docker-entrypoint-initdb.d/
     ports:
       - "3306:3306"
-    volumes:
-      - "./db/init.sql:/docker-entrypoint-initdb.d/init.sql"
+
+  app:
+    build: .
+    container_name: springboot-app
+    depends_on:
+      - mariadb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/supportjoin
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_DATASOURCE_PASSWORD: apppass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MariaDBDialect
+    ports:
+      - "8080:8080"
+    restart: always
+
+volumes:
+  mariadb_data:

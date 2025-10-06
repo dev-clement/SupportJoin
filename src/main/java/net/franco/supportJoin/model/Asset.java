@@ -10,22 +10,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
 
 @Entity
-@Data
-@Table(name = "user")
-public class User {
+@Table(name = "asset")
+public class Asset {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String firstName;
-	private String lastName;
-	private String email;
+	private String link;
+	private String metadata;
 	
-	// One user can also have many user-project links
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = false)
-	private Set<UserProject> userProjects = new HashSet<>();
-
+	@OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = false)
+	private Set<Project> projectAssets = new HashSet<>();
+	
+	public Long getId() { return this.id; }
+	
+	public String getLink() { return this.link; }
+	
+	public String getMetadata() { return this.metadata; }
 }
