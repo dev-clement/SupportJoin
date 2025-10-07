@@ -21,8 +21,8 @@ public class Asset {
 	private String link;
 	private String metadata;
 	
-	@OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = false)
-	private Set<Project> projectAssets = new HashSet<>();
+	@OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<ProjectAsset> projectAssets = new HashSet<>();
 	
 	public Long getId() { return this.id; }
 	

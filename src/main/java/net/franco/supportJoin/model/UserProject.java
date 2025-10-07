@@ -39,10 +39,13 @@ public class UserProject {
 		this.project = project;
 		this.role = role;
 		this.assignedDate = LocalDate.now();
+		this.setId(new UserProjectId(user.getId(), project.getId()));
 	}
 		
 	public String getRole() { return this.role; }
 	
+	public LocalDate getDate() { return this.assignedDate; }
+
 	public void setRole(String role) { 
 		if (this.role.equals(role)) {
 			return ;
@@ -56,4 +59,5 @@ public class UserProject {
 		}
 		this.id = id;
 	}
+	
 }

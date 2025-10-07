@@ -22,11 +22,14 @@ public class Project {
 	private Long id;
 	
 	// One project can then have many user-project links
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = false)
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<UserProject> userProjects = new HashSet<>();
 	
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = false)
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ProjectAsset> projectAssets = new HashSet<>();
+	
+	// This constructor is used by the JPA when creating an instance of it !
+	public Project() {}
 	
 	public Project(String name, String description) {
 		this.name = name;
