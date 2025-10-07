@@ -6,5 +6,4 @@ import net.franco.supportJoin.model.UserProject;
 import net.franco.supportJoin.utils.UserProjectId;
 
 public interface UserProjectRepository extends JpaRepository<UserProject, UserProjectId> {
-	void deleteByUserIdAndProjectId(Long userId, Long projectId);
 }
