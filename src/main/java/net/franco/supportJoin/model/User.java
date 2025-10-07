@@ -44,6 +44,8 @@ public class User {
 	
 	public String getPassword() { return this.password; }
 	
+	public Long getId() { return this.id; }
+	
 	public void setFirstName(String name) {
 		if (this.firstName.equals(name)) {
 			return;
