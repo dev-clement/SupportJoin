@@ -2,6 +2,8 @@
 FROM maven:3.9.6-eclipse-temurin-21 AS builder
 WORKDIR /app
 COPY . .
+COPY wait-for-mariadb.sh /tmp/wait-for-mariadb.sh
+RUN sed -i 's/\r$//' /tmp/wait-for-mariadb.sh && chmod +x /tmp/wait-for-mariadb.sh 
 RUN mvn clean package -DskipTests
 
 # Explanation: This is a docker stage, it's kind of a clean place where eveyrthing could
