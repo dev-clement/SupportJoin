@@ -70,6 +70,4 @@ public class ProjectService {
 		// Delete the project itself !
 		this.projectRepository.deleteById(projectId);
 	}
-=======
->>>>>>> b6aa862 (CFR-003 Made some change before controller)
 }
