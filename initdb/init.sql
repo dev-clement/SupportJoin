@@ -1,5 +1,10 @@
--- Use the database created by Docker
+CREATE DATABASE IF NOT EXISTS supportjoin;
 USE supportjoin;
+
+-- Create user and set its privileges
+CREATE USER IF NOT EXISTS 'appuser'@'%' IDENTIFIED BY 'apppassword';
+GRANT ALL PRIVILEGES ON supportjoin.* TO 'appuser'@'%';
+FLUSH PRIVILEGES;
 
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
@@ -58,3 +63,7 @@ INSERT INTO m2m_user_project (user_id, project_id, role, assigned_date) VALUES
   (1, 1, 'Lead', CURDATE()),
   (1, 2, 'Contributor', CURDATE()),
   (2, 2, 'Lead', CURDATE());
+
+CREATE USER IF NOT EXISTS 'appuser'@'%' IDENTIFIED BY 'apppassword';
+GRANT ALL PRIVILEGES ON supportjoin.* TO 'appuser'@'%';
+FLUSH PRIVILEGES;
