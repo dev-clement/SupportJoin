@@ -28,9 +28,7 @@ services:
         condition: service_healthy
     ports:
       - "8080:8080"
-    volumes:
-      - ./wait-for-mariadb.sh:/tmp/wait-for-mariadb.sh
-    command: ["sh", "/tmp/wait-for-mariadb.sh"]
+    command: ["bash", "/tmp/wait-for-mariadb.sh"]
     restart: on-failure
 
 volumes:
