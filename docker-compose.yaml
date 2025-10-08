@@ -2,31 +2,36 @@ services:
   mariadb:
     image: mariadb:11.4
     container_name: mariadb
-    restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: rootpass
-      MARIADB_USER: appuser
-      MARIADB_PASSWORD: apppass
-    volumes:
-      - mariadb_data:/var/lib/mysql
-      - ./initdb:/docker-entrypoint-initdb.d/
+      MARIADB_ROOT_PASSWORD: rootpassword
     ports:
       - "3306:3306"
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d   # SQL scripts
+      - mariadb_data:/var/lib/mysql           # Persistent database storage
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h mariadb -u root -prootpassword | grep 'mysqld is alive' || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 25s
 
-  app:
+  springboot-app:
     build: .
     container_name: springboot-app
-    depends_on:
-      - mariadb
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/supportjoin
       SPRING_DATASOURCE_USERNAME: appuser
-      SPRING_DATASOURCE_PASSWORD: apppass
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MariaDBDialect
+      SPRING_DATASOURCE_PASSWORD: apppassword
+    depends_on:
+      mariadb:
+        condition: service_healthy
     ports:
       - "8080:8080"
-    restart: always
+    volumes:
+      - ./wait-for-mariadb.sh:/tmp/wait-for-mariadb.sh
+    command: ["sh", "/tmp/wait-for-mariadb.sh"]
+    restart: on-failure
 
 volumes:
   mariadb_data:
