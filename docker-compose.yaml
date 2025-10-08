@@ -2,31 +2,33 @@ services:
   mariadb:
     image: mariadb:11.4
     container_name: mariadb
-    restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_ROOT_PASSWORD: rootpassword
       MARIADB_USER: appuser
-      MARIADB_PASSWORD: apppass
-    volumes:
-      - mariadb_data:/var/lib/mysql
-      - ./initdb:/docker-entrypoint-initdb.d/
+      MARIADB_PASSWORD: apppassword
+      MARIADB_DATABASE: supportjoin
     ports:
       - "3306:3306"
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d   # SQL scripts
+      - mariadb_data:/var/lib/mysql           # Persistent database storage
+    command: ["--transaction-isolation=READ-COMMITTED", "--log-bin=binlog"] # optional tuning
 
-  app:
+  springboot-app:
     build: .
     container_name: springboot-app
-    depends_on:
-      - mariadb
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/supportjoin
       SPRING_DATASOURCE_USERNAME: appuser
-      SPRING_DATASOURCE_PASSWORD: apppass
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MariaDBDialect
+      SPRING_DATASOURCE_PASSWORD: apppassword
+    depends_on:
+      - mariadb
     ports:
       - "8080:8080"
-    restart: always
+    volumes:
+      - ./entrypoint.sh:/tmp/entrypoint.sh
+    command: ["sh", "/tmp/entrypoint.sh"]
+    restart: on-failure
 
 volumes:
   mariadb_data:
