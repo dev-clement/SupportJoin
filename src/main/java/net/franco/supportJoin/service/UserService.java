@@ -7,24 +7,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import net.franco.supportJoin.model.Project;
+import net.franco.supportJoin.component.EmailSpecification;
+import net.franco.supportJoin.component.EmailValidator;
 import net.franco.supportJoin.model.User;
-import net.franco.supportJoin.repository.ProjectRepository;
 import net.franco.supportJoin.repository.UserRepository;
 
 @Service
 public class UserService {
 	private final UserRepository userRepository;
-	private final ProjectRepository projectRepository;
-	private final UserProjectService userProjectService;
-	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	private final PasswordEncoder passwordEncoder;
+	private final EmailValidator emailValidator;
+	private final EmailSpecification emailSpecification;
 	
 	public UserService(UserRepository userRepository
-					   , ProjectRepository projectRepository
-					   , UserProjectService userProjectService) {
+					   , EmailValidator emailValidator
+					   , EmailSpecification emailSpecification) {
 		this.userRepository = userRepository;
-		this.projectRepository = projectRepository;
-		this.userProjectService = userProjectService;
+		this.passwordEncoder = new BCryptPasswordEncoder();
+		this.emailValidator = emailValidator;
+		this.emailSpecification = emailSpecification;
 	}
 	
 	// -----------------------
@@ -47,28 +48,13 @@ public class UserService {
 	public User updateUserEmail(Long userId, String email) {
 		User user = this.userRepository.findById(userId)
 				.orElseThrow(() -> new RuntimeException("User not found !"));
+		this.emailValidator.validate(email);
+		this.emailSpecification.check(email);
 		user.setEmail(email);
-		return user;
+		return this.userRepository.save(user);
 	}
 	
 	public void deleteUser(Long userId) {
 		this.userRepository.deleteById(userId);
 	}
-
-	// -----------------------
-    // User ↔ Project relationship
-    // -----------------------
-	
-	public void assignUserToProject(Long userId, Long projectId, String role) {
-		User user = this.userRepository.findById(userId)
-				.orElseThrow(() -> new RuntimeException("User not found"));
-		Project project = this.projectRepository.findById(projectId)
-				.orElseThrow(() -> new RuntimeException("Project not found"));
-		this.userProjectService.assignUserToProject(user, project, role);
-	}
-	
-	public void removeUserFromProject(Long userId, Long projectId) {
-		this.userProjectService.removeUserFromProject(userId, projectId);
-	}
-		
 }
