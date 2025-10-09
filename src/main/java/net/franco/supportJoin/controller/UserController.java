@@ -55,7 +55,7 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping("/{userId}/projects/{projectId}/")
+/*	@PostMapping("/{userId}/projects/{projectId}/")
 	public ResponseEntity<Void> assignUserToProject(
 			@PathVariable Long userId
 			, @PathVariable Long projectId
@@ -70,5 +70,5 @@ public class UserController {
 					@PathVariable Long projectId) {
 		this.userService.removeUserFromProject(userId, projectId);
 		return ResponseEntity.noContent().build();
-	}
+	} */
 }
