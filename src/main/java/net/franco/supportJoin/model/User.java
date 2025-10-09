@@ -61,8 +61,8 @@ public class User {
 	}
 	
 	public void setEmail(String email) {
-		if (this.email.equals(email)) {
-			return;
+		if (!email.contains("@")) {
+			throw new IllegalArgumentException("Invalid email format, missing the at");
 		}
 		this.email = email;
 	}
